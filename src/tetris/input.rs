@@ -1,6 +1,6 @@
 use super::{
+  fields::get_fields,
   types::{Color, Input, Rotation, ShapeState},
-  util::get_fields,
   Tetris,
 };
 
