@@ -38,6 +38,7 @@ impl Tetris {
     let fields = get_fields(&current_shape);
 
     fields
+      .expect("Devs fault!")
       .iter()
       .for_each(|field| playground[field.1][field.0] = Some(Color::RED));
 

@@ -23,3 +23,6 @@ pub type Position = (usize, usize);
 pub type VecVal = (isize, isize);
 pub type Shape = [VecVal; 4];
 pub type ShapeState = (Shape, Position, Rotation);
+
+#[derive(Debug)]
+pub struct OutOfBoundsException;

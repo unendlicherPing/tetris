@@ -7,11 +7,13 @@ impl Display for Tetris {
     self.playground.iter().for_each(|y| {
       y.iter().for_each(|x| {
         match x {
-          Some(_) => f.write_str("🟪 "),
-          None => f.write_str("⬜ "),
+          Some(_) => {
+            f.write_str("🟪 ").expect("Something went completly wrong!")
+          }
+          None => f.write_str("⬜ ").expect("Something went completly wrong!"),
         };
       });
-      f.write_char('\n');
+      f.write_char('\n').expect("Something went completly wrong!");
     });
 
     Ok(())
