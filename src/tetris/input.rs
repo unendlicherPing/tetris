@@ -1,45 +1,62 @@
 use super::{
-  types::{Color, Input, Rotation},
+  types::{Color, Input, Rotation, ShapeState},
   util::get_fields,
   Tetris,
 };
 
 impl Tetris {
-  pub fn input(&mut self, input: Input) {
-    {
-      let fields = get_fields(&self.current_shape);
+  fn clear(&mut self) {
+    let fields = get_fields(&self.current_shape);
 
-      match fields {
-        Ok(val) => {
-          val
-            .iter()
-            .for_each(|field| self.playground[field.1][field.0] = None);
-        }
-        Err(_) => return,
+    match fields {
+      Ok(val) => {
+        val
+          .iter()
+          .for_each(|field| self.playground[field.1][field.0] = None);
+      }
+      Err(_) => {
+        return;
       }
     }
+  }
 
-    match input {
+  pub fn input(&mut self, input: Input) {
+    let new_shape: ShapeState = match input {
       Input::DOWN => {
-        self.current_shape.1 .1 += 1;
+        let mut shape = self.current_shape.clone();
+        shape.1 .1 += 1;
+        shape
       }
 
       Input::LEFT => {
-        self.current_shape.1 .0 -= 1;
+        let mut shape = self.current_shape.clone();
+        shape.1 .0 -= 1;
+        shape
       }
 
       Input::RIGHT => {
-        self.current_shape.1 .0 += 1;
+        let mut shape = self.current_shape.clone();
+        shape.1 .0 += 1;
+        shape
       }
-
       Input::UP => {
-        self.current_shape.2 = match self.current_shape.2 {
+        let mut shape = self.current_shape.clone();
+        shape.2 = match shape.2 {
           Rotation::UP => Rotation::RIGHT,
           Rotation::RIGHT => Rotation::DOWN,
           Rotation::DOWN => Rotation::LEFT,
           Rotation::LEFT => Rotation::UP,
         };
+        shape
       }
+    };
+
+    match get_fields(&new_shape) {
+      Ok(_) => {
+        self.clear();
+        self.current_shape = new_shape;
+      }
+      Err(_) => return,
     }
 
     let fields = get_fields(&self.current_shape).expect("Devs fault!");

@@ -35,8 +35,8 @@ fn add_vec_on_pos(
   let new_x = x.to_owned() as isize + &vec.1;
   let new_y = y.to_owned() as isize + &vec.0;
 
-  let x_oob = new_x < 0 || new_x > 10;
-  let y_oob = new_y < 0 || new_y > 16;
+  let x_oob = new_x < 0 || new_x >= 10;
+  let y_oob = new_y < 0 || new_y >= 16;
 
   if x_oob || y_oob {
     return Err(OutOfBoundsException {});
