@@ -9,9 +9,14 @@ impl Tetris {
     {
       let fields = get_fields(&self.current_shape);
 
-      fields
-        .iter()
-        .for_each(|field| self.playground[field.1][field.0] = None);
+      match fields {
+        Ok(val) => {
+          val
+            .iter()
+            .for_each(|field| self.playground[field.1][field.0] = None);
+        }
+        Err(_) => return,
+      }
     }
 
     match input {
@@ -37,7 +42,7 @@ impl Tetris {
       }
     }
 
-    let fields = get_fields(&self.current_shape);
+    let fields = get_fields(&self.current_shape).expect("Devs fault!");
 
     fields
       .iter()
