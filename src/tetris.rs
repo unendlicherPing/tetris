@@ -1,11 +1,11 @@
 use self::types::{Color, Shape, ShapeState};
 
 pub mod display;
+mod fields;
 pub mod input;
 pub mod new;
 mod test;
 pub mod types;
-mod util;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Tetris {
