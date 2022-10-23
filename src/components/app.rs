@@ -1,76 +1,41 @@
-use std::rc::Rc;
-
 use web_sys::KeyboardEvent;
-use yew::{html, Component, Context};
-use yewdux::{prelude::Dispatch, store::Reducer};
+use yew::{html, Component, Context, Html};
 
-use crate::tetris::types::Input;
-
-use super::global::State;
+use crate::components::row::Row;
+use crate::tetris::{types::Input, Tetris};
 
 pub enum Msg {
   KeyBoardEvent(KeyboardEvent),
-  Update(Rc<State>),
-}
-
-impl Reducer<State> for Msg {
-  fn apply(&self, mut state: std::rc::Rc<State>) -> std::rc::Rc<State> {
-    let game = Rc::make_mut(&mut state);
-
-    game.game.input(Input::DOWN);
-
-    state
-  }
 }
 
 pub struct App {
-  dispatch: Dispatch<State>,
-  game: Rc<State>,
+  game: Tetris,
 }
 
 impl Component for App {
   type Message = Msg;
   type Properties = ();
 
-  fn create(ctx: &Context<Self>) -> Self {
-    // The callback for receiving updates to state.
-    let callback: _ = ctx.link().callback(Msg::Update);
-    // Subscribe to changes in state. New state is received in `update`. Be sure to save this,
-    // dropping it will unsubscribe.
-    let dispatch = Dispatch::<State>::subscribe(callback);
+  fn create(_ctx: &Context<Self>) -> Self {
     Self {
-      // Get the current state.
-      game: dispatch.get(),
-      dispatch,
+      game: Tetris::new(),
     }
   }
 
   fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
     match msg {
-      // Receive new state.
-      Msg::Update(game) => {
-        self.game = game;
-      }
       Msg::KeyBoardEvent(event) => match event.key().as_ref() {
         "w" => {
-          self
-            .dispatch
-            .reduce_mut(|state| state.game.input(Input::UP));
+          self.game.input(Input::UP);
         }
         "s" => {
-          self
-            .dispatch
-            .reduce_mut(|state| state.game.input(Input::DOWN));
+          self.game.input(Input::DOWN);
         }
         "a" => {
-          self
-            .dispatch
-            .reduce_mut(|state| state.game.input(Input::LEFT));
+          self.game.input(Input::LEFT);
         }
         "d" => {
-          self
-            .dispatch
-            .reduce_mut(|state| state.game.input(Input::RIGHT));
+          self.game.input(Input::RIGHT);
         }
         _ => {}
       },
@@ -84,9 +49,20 @@ impl Component for App {
       .link()
       .batch_callback(|event: KeyboardEvent| Some(Msg::KeyBoardEvent(event)));
 
+    let rows = self
+      .game
+      .to_string()
+      .split('\n')
+      .map(|row| {
+        html! {
+          <Row content={ row.to_owned() } />
+        }
+      })
+      .collect::<Html>();
+
     html! {
       <>
-        <div> { self.dispatch.get().game.to_string() } </div>
+        <table> { rows } </table>
         <input type="text" {onkeypress} />
       </>
     }
