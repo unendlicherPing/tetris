@@ -1,5 +1,6 @@
 use super::{
   fields::get_fields,
+  grounded::is_grounded,
   types::{Color, Input, Rotation, ShapeState},
   Tetris,
 };
@@ -18,6 +19,13 @@ impl Tetris {
         return;
       }
     }
+  }
+
+  fn render(&mut self) {
+    let fields = get_fields(&self.current_shape).expect("Devs fault!");
+    fields
+      .iter()
+      .for_each(|field| self.playground[field.1][field.0] = Some(Color::RED));
   }
 
   pub fn input(&mut self, input: Input) {
@@ -59,10 +67,13 @@ impl Tetris {
       Err(_) => return,
     }
 
-    let fields = get_fields(&self.current_shape).expect("Devs fault!");
+    self.render();
 
-    fields
-      .iter()
-      .for_each(|field| self.playground[field.1][field.0] = Some(Color::RED));
+    if is_grounded(
+      &self.playground,
+      &get_fields(&self.current_shape).expect("Devs fault!"),
+    ) {
+      self.current_shape = (self.shapes[1].clone(), (5, 0), Rotation::DOWN);
+    }
   }
 }

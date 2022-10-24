@@ -23,6 +23,7 @@ pub type Position = (usize, usize);
 pub type VecVal = (isize, isize);
 pub type Shape = [VecVal; 4];
 pub type ShapeState = (Shape, Position, Rotation);
+pub type Map = [[Option<Color>; 10]; 16];
 
 #[derive(Debug)]
 pub struct OutOfBoundsException;
