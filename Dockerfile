@@ -1,11 +1,13 @@
-FROM rust:1.64.0-alpine
+FROM rust:latest as build
+
+RUN rustup target add wasm32-unknown-unknown &&\
+    cargo install trunk wasm-bindgen-cli
 
 WORKDIR /usr/src/tetris
 COPY . .
 
-RUN cargo install trunk
-RUN cargo install --path .
+CMD [ "trunk", "build", "--release" ]
 
-EXPOSE 8000
 
-CMD [ "trunk", "serve", "--release" ]
+FROM nginx:stable
+COPY --from=build /usr/src/tetris/dist /usr/share/nginx/html

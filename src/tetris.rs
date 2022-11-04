@@ -1,4 +1,4 @@
-use self::types::{Map, Shape, ShapeState};
+use self::types::{Shape, ShapeState, Map};
 
 pub mod display;
 mod fields;
