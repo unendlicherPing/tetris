@@ -2,7 +2,7 @@ use web_sys::KeyboardEvent;
 use yew::{html, Component, Context, Html};
 
 use crate::components::row::Row;
-use crate::tetris::{types::Input, Tetris};
+use tetris::tetris::{types::Input, Tetris};
 
 pub enum Msg {
   KeyBoardEvent(KeyboardEvent),

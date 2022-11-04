@@ -1,5 +1,4 @@
 mod components;
-mod tetris;
 
 use components::app::App;
 
