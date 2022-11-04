@@ -6,8 +6,11 @@ RUN rustup target add wasm32-unknown-unknown &&\
 WORKDIR /usr/src/tetris
 COPY . .
 
-CMD [ "trunk", "build", "--release" ]
+RUN trunk build --release
 
 
-FROM nginx:stable
+FROM nginx:1.23.2-alpine
+
 COPY --from=build /usr/src/tetris/dist /usr/share/nginx/html
+
+EXPOSE 80
