@@ -69,11 +69,11 @@ impl Tetris {
 
     self.render();
 
-    if is_grounded(
-      &self.playground,
-      &get_fields(&self.current_shape).expect("Devs fault!"),
-    ) {
-      self.current_shape = (self.shapes[1].clone(), (5, 0), Rotation::DOWN);
-    }
+    // // if is_grounded(
+    //   &self.playground,
+    //   &get_fields(&self.current_shape).expect("Devs fault!"),
+    // ) {
+    //   self.current_shape = (self.shapes[1].clone(), (5, 0), Rotation::DOWN);
+    // }
   }
 }

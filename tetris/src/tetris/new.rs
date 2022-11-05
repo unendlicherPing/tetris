@@ -6,24 +6,7 @@ use super::{
 
 impl Tetris {
   pub fn new() -> Tetris {
-    let mut playground = [
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-      [None, None, None, None, None, None, None, None, None, None],
-    ];
+    let mut playground = [[None; 10]; 16];
     let shapes = [
       [(0, 0), (0, 1), (0, 2), (0, -1)],
       [(1, -1), (1, 0), (1, 1), (0, -1)],
