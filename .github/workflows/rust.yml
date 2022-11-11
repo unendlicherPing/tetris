@@ -23,7 +23,7 @@ jobs:
         cargo install trunk wasm-bindgen-cli
         cd ..
     - name: Build
-      run: trunk build --release
+      run: trunk build --release ./web
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
