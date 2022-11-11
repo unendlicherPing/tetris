@@ -20,7 +20,7 @@ jobs:
       run: | 
         cd ./web
         rustup target add wasm32-unknown-unknown
-        cargo install trunk wasm-bindgen
+        cargo install trunk wasm-bindgen-cli
         cd ..
     - name: Build
       run: trunk build --release
